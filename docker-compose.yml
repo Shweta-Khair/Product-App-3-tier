@@ -1,0 +1,47 @@
+version: "3.3"
+ 
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+ 
+  spring-boot-app:
+    image: backendapi
+    container_name: spring-boot-app
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  frontend:
+    image: frontend   # Replace with your actual frontend image (e.g., Angular built image served with Nginx)
+    container_name: frontend-container
+    restart: always
+    depends_on:
+      - spring-boot-app
+    ports:
+      - "4200:80"   # Maps frontend container's Nginx port 80 to host port 4200
+    networks:
+      - app-network
+ 
+networks:
+  app-network:
+    driver: bridge
+
