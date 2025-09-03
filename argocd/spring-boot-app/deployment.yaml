@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-app
-          image: backendapi
+          image: 543816070942.dkr.ecr.us-east-1.amazonaws.com/product-backend:backend-2f303698c0e157c5f1c5712178f584f810c7a560
           ports:
             - containerPort: 8080
           env:
