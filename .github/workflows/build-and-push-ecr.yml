@@ -29,7 +29,7 @@ jobs:
         working-directory: ProductApp-API
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPO: ${{ ECR_BACKEND_REPO }}
+          ECR_REPO: ${{ secrets.ECR_BACKEND_REPO }}
           IMAGE_TAG: backend-${{ github.sha }}
         run: |
           pwd
@@ -40,7 +40,7 @@ jobs:
         working-directory: ProductApp-UI
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPO: ${{ ECR_REACT_REPO }}
+          ECR_REPO: ${{ secrets.ECR_REACT_REPO }}
           IMAGE_TAG: frontend-${{ github.sha }}
         run: |
           pwd
