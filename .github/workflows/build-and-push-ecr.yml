@@ -32,6 +32,7 @@ jobs:
           ECR_REPO: ${{ secrets.ECR_BACKEND_REPO }}
           IMAGE_TAG: backend-${{ github.sha }}
         run: |
+          cd ProductApp-API
           docker build -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
 
@@ -42,5 +43,6 @@ jobs:
           ECR_REPO: ${{ secrets.ECR_REACT_REPO }}
           IMAGE_TAG: frontend-${{ github.sha }}
         run: |
+          cd ProductApp-UI
           docker build -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
