@@ -4,10 +4,10 @@ metadata:
   name: frontend
   namespace: three-tier
 spec:
-  type: NodePort   # You can change to LoadBalancer or Ingress
+  type: LoadBalancer  # changed from NodePort
   selector:
     app: frontend
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 32000   # Optional fixed port (32000 → http://<nodeIP>:32000)
+      # nodePort: 32000  # optional; typically omitted
