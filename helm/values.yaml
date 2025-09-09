@@ -1,0 +1,38 @@
+namespace: three-tier
+
+frontend:
+  replicaCount: 1
+  image: "543816070942.dkr.ecr.us-east-1.amazonaws.com/product-frontend"
+  tag: "frontend-2f303698c0e157c5f1c5712178f584f810c7a560"
+  service:
+    type: LoadBalancer
+    port: 80
+
+backend:
+  replicaCount: 1
+  image: "543816070942.dkr.ecr.us-east-1.amazonaws.com/product-backend"
+  tag: "backend-2f303698c0e157c5f1c5712178f584f810c7a560"
+  service:
+    type: ClusterIP
+    port: 8080
+  env:
+    db_url: "jdbc:mysql://mysql:3306/product"
+    db_user: "admin"
+    db_password: "admin"
+
+mysql:
+  replicaCount: 1
+  image: "mysql:latest"
+  service:
+    type: ClusterIP
+    port: 3306
+  env:
+    rootPassword: "root"
+    database: "product"
+    user: "admin"
+    password: "admin"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    storageClass: ""   # leave empty to use default, or set (e.g. "gp2")
