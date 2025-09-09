@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-app
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: spring-boot-app
+  template:
+    metadata:
+      labels:
+        app: spring-boot-app
+    spec:
+      containers:
+        - name: spring-boot-app
+          image: "{{ .Values.backend.image }}:{{ .Values.backend.tag }}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.backend.env.db_url | quote }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.backend.env.db_user | quote }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.backend.env.db_password | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-app
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.backend.service.type }}
+  selector:
+    app: spring-boot-app
+  ports:
+    - port: {{ .Values.backend.service.port }}
+      targetPort: 8080
