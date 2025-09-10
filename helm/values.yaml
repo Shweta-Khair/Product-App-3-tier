@@ -32,7 +32,7 @@ mysql:
     user: "admin"
     password: "admin"
   persistence:
-    enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     size: 1Gi
     storageClass: ""   # leave empty to use default, or set (e.g. "gp2")
